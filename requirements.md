@@ -10,6 +10,33 @@
 
 ¿ Why should one care about the product ?
 
+## User Stories
+
+**Title**
+*---story---*
+*feature Tasks:*
+*Acceptance Tests:*
+
+**Title**
+*---story---*
+*feature Tasks:*
+*Acceptance Tests:*
+
+**Title**
+*---story---*
+*feature Tasks:*
+*Acceptance Tests:*
+
+**Title**
+*---story---*
+*feature Tasks:*
+*Acceptance Tests:*
+
+**Title**
+*---story---*
+*feature Tasks:*
+*Acceptance Tests:*
+
 ## Scope (In/Out)
 
 -  IN -> What will the product do?
