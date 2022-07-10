@@ -36,6 +36,9 @@ The MVP of this project is:
 ## Team Members:
 
 > Abdinasir Yussuf
+
 > Elizabeth Hammes
+
 > Beau Hibbert
+
 > Marcus Hartwig
