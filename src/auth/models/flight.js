@@ -3,7 +3,7 @@
 // flight database scheme what we want from the api to be stored in the database
 
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('flight-info', {
+  return sequelize.define('flightInfos', {
     airline: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -5,6 +5,7 @@
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const SECRET = process.env.SECRET || 'rapcon';
 
@@ -30,7 +31,7 @@ const userModel = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       required: true,
     },
-    uuid: {
+    uuid: { // NEED TO REVISIT
       type: DataTypes.STRING,
       required: true,
     },
@@ -40,7 +41,7 @@ const userModel = (sequelize, DataTypes) => {
         return jwt.sign({ username: this.username }, SECRET, { expiresIn: '9000000' });
       },
       set(payload) {
-        return jwt.sign(payload, process.env.SECRET);
+        return jwt.sign(payload, SECRET);
       },
     },
     capabilities: {
@@ -67,9 +68,9 @@ const userModel = (sequelize, DataTypes) => {
     throw new Error('Invalid User');
   };
 
-  model.authenticatetoken = async function (token) {
+  model.authenticateToken = async function (token) {
     try {
-      const parsedToken = jwt.verify(token, process.env.SECRET);
+      const parsedToken = jwt.verify(token, SECRET);
       const user = await this.findOne({ where: { username: parsedToken.username } });
       if (user) { return user; }
       throw new Error('User Not Found');
