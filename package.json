@@ -4,9 +4,13 @@
   "description": "**Radar Approach Control Facility (RAPCON)**",
   "main": "index.js",
   "scripts": {
+<<<<<<< models
     "test": "echo \"Error: no test specified\" && exit 1",
     "init:config": "sequelize init:config",
     "db:create": "sequelize db:create"
+=======
+    "test": "jest --verbose --coverage"
+>>>>>>> staging
   },
   "repository": {
     "type": "git",
