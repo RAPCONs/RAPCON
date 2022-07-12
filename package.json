@@ -1,0 +1,23 @@
+{
+  "name": "rapcon",
+  "version": "1.0.0",
+  "description": "**Radar Approach Control Facility (RAPCON)**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RAPCONs/RAPCON.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RAPCONs/RAPCON/issues"
+  },
+  "homepage": "https://github.com/RAPCONs/RAPCON#readme",
+  "dependencies": {
+    "sequelize": "^6.21.3"
+  }
+}
