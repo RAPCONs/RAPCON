@@ -12,7 +12,7 @@ The MVP of this project is:
 1. access a flight tracking API that:
     - Creates an object out of flight data
     - Shows data about individual flights
-    - Shows data about flights comming out/into a chosen airport. 
+    - Shows data about flights comming out/into a chosen airport.
 
 2. Allows a user to subscribe to flight information:
     - When a flight departs
@@ -42,3 +42,8 @@ The MVP of this project is:
 > Beau Hibbert
 
 > Marcus Hartwig
+
+## Credit
+
+**Socket.io testing code docs**
+https://socket.io/docs/v4/testing/
