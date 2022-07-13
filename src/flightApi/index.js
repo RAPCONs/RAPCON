@@ -1,73 +1,73 @@
 'use strict';
 require('dotenv').config();
 const axios = require('axios');
+const { model } = require('dynamoose');
+
 
 const { io } = require('socket.io-client');
+const flight = require('../auth/models/flight');
 
+// make sure this is also dynamic 
 const socket = io('http://localhost:3002/flightDeck');
 
-let flightHub = 'flightHub';
 
 
-socket.emit('JOIN', flightHub);
+// THis is not properly setup for rooms
+// let flightHub = 'flightHub';
+// socket.emit('JOIN', flightHub);
 
 
 
-let flightnumArr = [];
+
+let emptyObject = {};
 
 socket.on('FLIGHTNUMBER',(payload)=>{
-  let flightNumber = payload.flight;
   
-  flightnumArr.push(flightNumber);
+  // console.log(payload);
+  logEvent('FLIGHTNUMBER',payload.flight);
+  
+  // let flightNumber = payload.flight;
+
+  setInterval(async () => {
+    
+    
+    
+    // AWAIT BUSINESS
+    const url = (`https://airlabs.co/api/v9/flight?flight_iata=${payload.flight}&api_key=${process.env.API_KEY}`);
+    let flightInfo = await axios.get(url);
+    const flightData = flightInfo.data;
+    let flightDataObject = flightData.response;
+
+    console.log(flightDataObject);
+    // PAYLOAD
+    let flight = {
+        airline: flightDataObject.airline_iata ,
+        flightNumber: flightDataObject.flight_number,
+        speed: flightDataObject.speed,
+        departureAirport: flightDataObject.dep_iata,
+        departureTime: flightDataObject.dep_time,
+        departureGate:flightDataObject.dep_gate,
+        arrivalAirport:flightDataObject.arr_iata,
+        arrivalTime:flightDataObject.arr_time,
+        arrivalGate:flightDataObject.arr_gate,
+        baggageClaim:flightDataObject.arr_baggage,
+        flightStatus:flightDataObject.status,
+        // import uuid at somepoint to get into database: I removed it 
+      }
+    
+  
+  
+    // utilize flightStatus to trigger notifications through socketServer
+  
+    socket.emit('DEPARTURE', flight);
+    
+  }, 10000);  
 })
 
 
-console.log(flightnumArr);
 
-
-
-setInterval(async () => {
-    
-    
-  const url = (`https://airlabs.co/api/v9/flight?flight_iata=${flightNumber}8&api_key=${process.env.API_KEY}`);
-  
-  let flightInfo = await axios.get(url);
-  let flightArr = [];
-
-  const flightData = flightInfo.data;
-
-  let flightDataObject = flightData.response;
-
-  console.log(flightArr);
-
-  Object.keys(flightDataObject).forEach(e => {
-    e,flightArr.push(flightDataObject[e]);
-  });
-  
-  let flight = {
-    payload: {
-      airline: 'hello' ,
-      // flightNumber:,
-      // departureAirport:,
-      // departureTime:,
-      // departureGate:,
-      // aircraftSpeed:,
-      // aircraftVerticalSpeed:,
-      // arrivalAirport:,
-      // arrivalTime:,
-      // arrivalGate:,
-      // baggageClaim:,
-      // flightStatus:,
-      // import uuid at somepoint to get into database: I removed it 
-    }
-  }
-
-
-  // utilize flightStatus to trigger notifications through socketServer
-
-
-
-  socket.emit('DEPARTURE', flight);
-  console.log('HEY THIS IS THE FLIGHT PAYLOAD', flight.payload.airline);
-}, 1000);
+function logEvent(event, payload){
+  let time = new Date();
+  console.log('EVENT', {event, time, payload});
+}
 
