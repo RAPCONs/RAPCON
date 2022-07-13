@@ -12,13 +12,26 @@ let flightHub = 'flightHub';
 socket.emit('JOIN', flightHub);
 
 
+
+let flightnumArr = [];
+
+socket.on('FLIGHTNUMBER',(payload)=>{
+  let flightNumber = payload.flight;
+  
+  flightnumArr.push(flightNumber);
+})
+
+
+console.log(flightnumArr);
+
+
+
 setInterval(async () => {
+    
+    
   const url = (`https://airlabs.co/api/v9/flight?flight_iata=${flightNumber}8&api_key=${process.env.API_KEY}`);
   
-  
-  
-  
-
+  let flightInfo = await axios.get(url);
   let flightArr = [];
 
   const flightData = flightInfo.data;
@@ -56,5 +69,5 @@ setInterval(async () => {
 
   socket.emit('DEPARTURE', flight);
   console.log('HEY THIS IS THE FLIGHT PAYLOAD', flight.payload.airline);
-}, 900000);
+}, 1000);
 
