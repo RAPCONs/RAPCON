@@ -1,7 +1,7 @@
 'use strict';
 
 const base64 = require('base-64');
-const { Customers } = require('../models');
+const { CustomerModel } = require('../models');
 
 module.exports = async (req, res, next) => {
   if (!req.headers.authorization) {
@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
   let [user, pass] = base64.decode(basic).split(':');
 
   try {
-    req.user = await Customers.authenticateBasic(user, pass);
+    req.user = await CustomerModel.authenticateBasic(user, pass);
     next();
   } catch (e) {
     console.error(e);

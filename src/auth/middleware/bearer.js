@@ -1,6 +1,6 @@
 'use strict';
 
-const { Customers } = require('../models');
+const { CustomerModel } = require('../models');
 
 module.exports = async (req, res, next) => {
   try {
@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
       throw new Error('Invalid authorization header');
 
     const token = req.headers.authorization.split(' ').pop();
-    const validUser = await Customers.authenticateToken(token);
+    const validUser = await CustomerModel.authenticateToken(token);
     req.user = validUser;
     req.token = validUser.token;
     next();
