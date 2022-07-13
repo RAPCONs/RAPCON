@@ -5,7 +5,7 @@
 require('dotenv').config();
 
 const { Server }  = require('socket.io');
-const flight = require('../auth/models/flight');
+// const flight = require('../auth/models/flight');
 const PORT = process.env.PORT || 3002;
 
 const io = new Server(PORT);
@@ -44,8 +44,17 @@ flightDeck.on('connection', (socket) => {
 
   socket.on('DEPARTURE', (payload) => {
 
-    
     logEvent('DEPARTURE',payload);
+    
+    // this is what we want to do to add the payload to the database.
+    
+    router.post('/customer', async (req, res, next) => {
+      let customer = req.body;
+      console.log(req.body);
+    
+      let response = await customerInterface.create(customer);
+      res.status(200).send(response);
+    });
     // SPECIFIC ROOM NOT BROADCASTING TO EVERYTHING => socket.broadcast.emit to room.broadcast.emit
     flightDeck.emit('DEPARTURE', payload);
   });
@@ -56,13 +65,11 @@ flightDeck.on('connection', (socket) => {
     flightDeck.emit('EN-ROUTE', payload);
   });
 
-
   //  delivers a message to user that flight has officially landed
   socket.on('LANDED', (payload) => {
     logEvent('LANDED',payload);
     flightDeck.emit('LANDED', payload);
   });
-
 });
 
 function logEvent(event, payload){

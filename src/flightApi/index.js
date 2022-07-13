@@ -1,11 +1,12 @@
 'use strict';
 require('dotenv').config();
 const axios = require('axios');
-const { model } = require('dynamoose');
+
 
 
 const { io } = require('socket.io-client');
-const flight = require('../auth/models/flight');
+
+
 
 // make sure this is also dynamic 
 const socket = io('http://localhost:3002/flightDeck');
@@ -19,7 +20,6 @@ const socket = io('http://localhost:3002/flightDeck');
 
 
 
-let emptyObject = {};
 
 socket.on('FLIGHTNUMBER',(payload)=>{
   
@@ -30,14 +30,15 @@ socket.on('FLIGHTNUMBER',(payload)=>{
 
   setInterval(async () => {
     
-    
-    
+    console.log(payload.flight)
+
     // AWAIT BUSINESS
     const url = (`https://airlabs.co/api/v9/flight?flight_iata=${payload.flight}&api_key=${process.env.API_KEY}`);
     let flightInfo = await axios.get(url);
     const flightData = flightInfo.data;
     let flightDataObject = flightData.response;
 
+    
     console.log(flightDataObject);
     // PAYLOAD
     let flight = {
@@ -55,7 +56,6 @@ socket.on('FLIGHTNUMBER',(payload)=>{
         // import uuid at somepoint to get into database: I removed it 
       }
     
-  
   
     // utilize flightStatus to trigger notifications through socketServer
   
