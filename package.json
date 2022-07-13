@@ -29,6 +29,7 @@
     "jest": "^28.1.2",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3",
+    "request": "^2.88.2",
     "sequelize": "^6.21.3",
     "sequelize-cli": "^6.4.1",
     "socket.io": "^4.5.1",
