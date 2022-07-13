@@ -5,6 +5,7 @@
 require('dotenv').config();
 
 const { Server }  = require('socket.io');
+const flight = require('../auth/models/flight');
 const PORT = process.env.PORT || 3002;
 
 const io = new Server(PORT);
@@ -17,33 +18,47 @@ io.on('connection', (socket)=>{
   
 });
 
-
+// FLIGHT DECK IS THE NAMESPACE maybe as phone number???
 flightDeck.on('connection', (socket) => {
     // maybe add , before +
   console.log('You are now connected to the Flight Deck: ', socket.id);
 
-  socket.on('JOIN: ', (room) => {
+  // this functionality might not be working right now 
+  socket.on('JOIN', (room) => {
     console.log(`You have joined room: ${room}`);
     socket.join(room);
   });
+
   //departureStatus
   //in-flight
   //ConfirmLanded
+
+
+  // THIS IS GRABBING ANYTHING THAT EMITS TO THE EVENT FLIGHTNUMBER. WHICH IS INSIDE CLIENT.
   socket.on('FLIGHTNUMBER', (payload) => {
     logEvent('FLIGHTNUMBER',payload);
     socket.broadcast.emit('FLIGHTNUMBER',(payload));
   });
+
+
+
   socket.on('DEPARTURE', (payload) => {
     logEvent('DEPARTURE',payload);
-    socket.broadcast.emit('DEPARTURE', payload);
+    // SPECIFIC ROOM NOT BROADCASTING TO EVERYTHING => socket.broadcast.emit to room.broadcast.emit
+    flightDeck.emit('DEPARTURE', payload);
   });
-  socket.on('IN-FLIGHT', (payload) => {
-    logEvent('IN-FLIGHT',payload);
-    socket.broadcast.emit('IN-FLIGHT', payload);
+
+  // Making sure this is getting that departure payload and checking the flight status of it
+  socket.on('EN-ROUTE', (payload) => {
+    logEvent('EN-ROUTE',payload);
+    flightDeck.emit('EN-ROUTE', payload);
   });
+
+
+  //  delivers a message to user that flight has officially landed
   socket.on('LANDED', (payload) => {
     logEvent('LANDED',payload);
-    socket.broadcast.emit('LANDED: ', payload);
+    flightDeck.emit('LANDED', payload);
   });
 
 });
