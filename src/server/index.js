@@ -44,7 +44,6 @@ flightDeck.on('connection', (socket) => {
 
   socket.on('DEPARTURE', (payload) => {
 
-    
     logEvent('DEPARTURE',payload);
     // SPECIFIC ROOM NOT BROADCASTING TO EVERYTHING => socket.broadcast.emit to room.broadcast.emit
     flightDeck.emit('DEPARTURE', payload);
@@ -56,13 +55,11 @@ flightDeck.on('connection', (socket) => {
     flightDeck.emit('EN-ROUTE', payload);
   });
 
-
   //  delivers a message to user that flight has officially landed
   socket.on('LANDED', (payload) => {
     logEvent('LANDED',payload);
     flightDeck.emit('LANDED', payload);
   });
-
 });
 
 function logEvent(event, payload){
