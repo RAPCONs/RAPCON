@@ -2,7 +2,7 @@
 // Using socket.io testing code
 // https://socket.io/docs/v4/testing/
 const { createServer } = require("http");
-const { Server } = require("./socketServer");
+const { Server } = require("./index");
 const Client = require("socket.io-client");
 
 describe("** Listening from the Flight Deck **", () => {
