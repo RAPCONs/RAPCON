@@ -1,6 +1,8 @@
 'use strict';
 require('dotenv').config();
 const axios = require('axios');
+const { model } = require('dynamoose');
+
 
 const { io } = require('socket.io-client');
 const flight = require('../auth/models/flight');
@@ -17,7 +19,7 @@ const socket = io('http://localhost:3002/flightDeck');
 
 
 
-
+let emptyObject = {};
 
 socket.on('FLIGHTNUMBER',(payload)=>{
   
@@ -36,11 +38,12 @@ socket.on('FLIGHTNUMBER',(payload)=>{
     const flightData = flightInfo.data;
     let flightDataObject = flightData.response;
 
- 
+    console.log(flightDataObject);
     // PAYLOAD
     let flight = {
         airline: flightDataObject.airline_iata ,
         flightNumber: flightDataObject.flight_number,
+        speed: flightDataObject.speed,
         departureAirport: flightDataObject.dep_iata,
         departureTime: flightDataObject.dep_time,
         departureGate:flightDataObject.dep_gate,
@@ -57,10 +60,14 @@ socket.on('FLIGHTNUMBER',(payload)=>{
     // utilize flightStatus to trigger notifications through socketServer
   
     socket.emit('DEPARTURE', flight);
+    
   }, 10000);  
 })
+
+
 
 function logEvent(event, payload){
   let time = new Date();
   console.log('EVENT', {event, time, payload});
 }
+

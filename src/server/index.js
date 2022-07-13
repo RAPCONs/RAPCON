@@ -43,6 +43,8 @@ flightDeck.on('connection', (socket) => {
 
 
   socket.on('DEPARTURE', (payload) => {
+
+    
     logEvent('DEPARTURE',payload);
     // SPECIFIC ROOM NOT BROADCASTING TO EVERYTHING => socket.broadcast.emit to room.broadcast.emit
     flightDeck.emit('DEPARTURE', payload);

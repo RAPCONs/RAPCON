@@ -39,8 +39,9 @@ socket.on('EN-ROUTE', (payload) =>{
 
 
 socket.on('LANDED', (payload) =>{
-  if(payload.flightStatus === 'landed'){
-    console.log(`Flight Number ${payload.airline}${payload.flightNumber} has finally ${payload.flightStatus}. Please head to `)
+  
+  if( payload.flightStatus === 'landed' || payload.speed < 100  ){
+    console.log(`Flight Number ${payload.airline}${payload.flightNumber} has finally Landed.`);
   }
 })
 
