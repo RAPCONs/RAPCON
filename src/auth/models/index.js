@@ -5,7 +5,7 @@
 
 const { Sequelize, DataTypes } = require('sequelize');
 const flightSchema = require('./flight');
-const userModel = require('./user');
+const customerSchema = require('./customers');
 require('dotenv').config();
 
 const DATABASE_URL = process.env.DATABASE_URL || 'postgres://localhost:5432/rapcon';
@@ -22,18 +22,18 @@ const sequelize = new Sequelize (DATABASE_URL);
 //   },
 // });
 
-// User Info
-const Customers = userModel(sequelize, DataTypes);
+// Customer Model
+const CustomerModel = customerSchema(sequelize, DataTypes);
 
-// Flight Info
-const Flights = flightSchema(sequelize, DataTypes);
+// Flight Model
+const FlightModel = flightSchema(sequelize, DataTypes);
 
 // Create Associations
-// Customers.hasMany(Flights, {foreignKey:'uuid', sourceKey:'uuid'});
-// Flights.belongsTo(Customers, {foreignKey: 'uuid', targetKey: 'uuid'});
+CustomerModel.hasMany(FlightModel, {foreignKey:'id', sourceKey:'id'});
+FlightModel.belongsTo(CustomerModel, {foreignKey: 'id', targetKey: 'id'});
 
 module.exports = {
   sequelize,
-  Flights,
-  Customers,
+  CustomerModel,
+  FlightModel,
 };

@@ -9,9 +9,7 @@ require('dotenv').config();
 
 const SECRET = process.env.SECRET || 'rapcon';
 
-// ***VERIFY BELOW WITH TEAM
-
-const userModel = (sequelize, DataTypes) => {
+const customerSchema = (sequelize, DataTypes) => {
   const model = sequelize.define('customers', {
     username: {
       type: DataTypes.STRING,
@@ -28,10 +26,6 @@ const userModel = (sequelize, DataTypes) => {
       defaultValue: 'user',
     },
     phone: {
-      type: DataTypes.STRING,
-      required: true,
-    },
-    uuid: { // NEED TO REVISIT
       type: DataTypes.STRING,
       required: true,
     },
@@ -82,4 +76,4 @@ const userModel = (sequelize, DataTypes) => {
   return model;
 };
 
-module.exports = userModel;
+module.exports = customerSchema;
