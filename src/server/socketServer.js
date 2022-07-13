@@ -11,6 +11,7 @@ const io = new Server(PORT);
 
 const flightDeck = io.of('/flightDeck');
 
+// NAMESPACE
 flightDeck.on('connection', (socket) => {
     // maybe add , before +
   console.log('You are now connected to the Flight Deck: ', socket.id);
@@ -24,6 +25,12 @@ flightDeck.on('connection', (socket) => {
   //ConfirmLanded
   socket.on('DEPARTURE: ', (payload) => {
     socket.broadcast.emit('DEPARTURE: ', payload);
+  });
+  socket.on('IN-FLIGHT: ', (payload) => {
+    socket.broadcast.emit('IN-FLIGHT: ', payload);
+  });
+  socket.on('LANDED: ', (payload) => {
+    socket.broadcast.emit('LANDED: ', payload);
   });
 });
 
