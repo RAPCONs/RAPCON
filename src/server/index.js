@@ -12,9 +12,11 @@ const io = new Server(PORT);
 const flightDeck = io.of('/flightDeck');
 
 
-io.on('connection', socket =>{
+io.on('connection', (socket)=>{
   console.log('client:', socket.id);
+  
 });
+
 
 flightDeck.on('connection', (socket) => {
     // maybe add , before +
@@ -27,6 +29,10 @@ flightDeck.on('connection', (socket) => {
   //departureStatus
   //in-flight
   //ConfirmLanded
+  socket.on('FLIGHTNUMBER', (payload) => {
+    logEvent('FLIGHTNUMBER',payload);
+    socket.broadcast.emit('FLIGHTNUMBER',(payload));
+  });
   socket.on('DEPARTURE', (payload) => {
     logEvent('DEPARTURE',payload);
     socket.broadcast.emit('DEPARTURE', payload);
