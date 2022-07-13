@@ -42,17 +42,17 @@ socket.on('FLIGHTNUMBER',(payload)=>{
     console.log(flightDataObject);
     // PAYLOAD
     let flight = {
-        // airline: flightDataObject.airline_iata ,
-        // flightNumber: flightDataObject.flight_number,
-        // speed: flightDataObject.speed,
-        // departureAirport: flightDataObject.dep_iata,
-        // departureTime: flightDataObject.dep_time,
-        // departureGate:flightDataObject.dep_gate,
-        // arrivalAirport:flightDataObject.arr_iata,
-        // arrivalTime:flightDataObject.arr_time,
-        // arrivalGate:flightDataObject.arr_gate,
-        // baggageClaim:flightDataObject.arr_baggage,
-        // flightStatus:flightDataObject.status,
+        airline: flightDataObject.airline_iata ,
+        flightNumber: flightDataObject.flight_number,
+        speed: flightDataObject.speed,
+        departureAirport: flightDataObject.dep_iata,
+        departureTime: flightDataObject.dep_time,
+        departureGate:flightDataObject.dep_gate,
+        arrivalAirport:flightDataObject.arr_iata,
+        arrivalTime:flightDataObject.arr_time,
+        arrivalGate:flightDataObject.arr_gate,
+        baggageClaim:flightDataObject.arr_baggage,
+        flightStatus:flightDataObject.status,
         // import uuid at somepoint to get into database: I removed it 
       }
     
