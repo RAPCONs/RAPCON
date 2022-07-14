@@ -26,20 +26,12 @@ const socket = io('http://localhost:3002/flightDeck');
 // socket.emit('JOIN', flightHub);
 
 
-
-
-
 socket.on('FLIGHTNUMBER',(payload)=>{
 
   // console.log(payload);
   logEvent('FLIGHTNUMBER',payload.flight);
 
   // let flightNumber = payload.flight;
-
-
-  setTimeout(async () => {
-
-
 
   setInterval(async () => {
     
@@ -67,14 +59,12 @@ socket.on('FLIGHTNUMBER',(payload)=>{
         arrivalGate:flightDataObject.arr_gate,
         baggageClaim:flightDataObject.arr_baggage,
         flightStatus:flightDataObject.status,
-        // import uuid at somepoint to get into database: I removed it
       }
 
     // utilize flightStatus to trigger notifications through socketServer
 
-    socket.emit('DEPARTURE', flight);
-
-  }, 1000);
+    socket.emit('DEPARTURE', flight);    
+  }, 20000);
 })
 
 

@@ -3,14 +3,12 @@
 // this file will emit all of our socket business
 
 require('dotenv').config();
-
+const PORT = 3002;
 const { Server }  = require('socket.io');
-// const flight = require('../auth/models/flight');
-const PORT = process.env.PORT || 3002;
-
 const io = new Server(PORT);
-
 const flightDeck = io.of('/flightDeck');
+const { FlightModel } = require('../auth/models/index')
+// const authRouter = require('../auth/router/index')
 
 
 io.on('connection', (socket)=>{
@@ -42,19 +40,28 @@ flightDeck.on('connection', (socket) => {
 
 
 
-  socket.on('DEPARTURE', (payload) => {
+  socket.on('DEPARTURE', async (payload) => {
 
-    logEvent('DEPARTURE',payload);
+    logEvent('DEPARTURE', payload);
     
     // this is what we want to do to add the payload to the database.
-    
-    router.post('/customer', async (req, res, next) => {
-      let customer = req.body;
-      console.log(req.body);
-    
-      let response = await customerInterface.create(customer);
-      res.status(200).send(response);
-    });
+  //**NEED TO ADD OTHER DATA COLUMNS HERE
+      let flights = {
+          airline: payload.airline,
+          flightNumber: payload.flightNumber,
+          departureAirport: payload.departureAirport, 
+          departureTime: payload.departureTime,
+          arrivalAirport: payload.arrivalAirport,
+          arrivalTime: payload.arrivalTime,
+          flightStatus: payload.flightStatus,
+          customerID: 1,
+      }
+      let allFlights = await FlightModel.readAll()
+      // console.log(allFlights.response.flights.dataValues.id)
+      let response = await FlightModel.create(flights);
+      console.log('response:', response);
+      // console.log('response1:', response1);
+
     // SPECIFIC ROOM NOT BROADCASTING TO EVERYTHING => socket.broadcast.emit to room.broadcast.emit
     flightDeck.emit('DEPARTURE', payload);
   });
