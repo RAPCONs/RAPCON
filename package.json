@@ -37,6 +37,7 @@
     "socket.io": "^4.5.1",
     "socket.io-client": "^4.5.1",
     "supertest": "^6.2.4",
+    "twilio": "^3.79.0",
     "uuid": "^8.3.2"
   }
 }
