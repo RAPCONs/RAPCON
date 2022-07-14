@@ -2,21 +2,13 @@
 require('dotenv').config();
 const axios = require('axios');
 
-//const { model } = require('dynamoose');
-
-
-const { io } = require('socket.io-client');
-//const flight = require('../auth/models/flight');
-
-
 
 
 const { io } = require('socket.io-client');
 
 
 
-
-// make sure this is also dynamic
+// make sure this is also dynamic 
 const socket = io('http://localhost:3002/flightDeck');
 
 
@@ -27,16 +19,15 @@ const socket = io('http://localhost:3002/flightDeck');
 
 
 socket.on('FLIGHTNUMBER',(payload)=>{
-
+  
   // console.log(payload);
   logEvent('FLIGHTNUMBER',payload.flight);
-
+  
   // let flightNumber = payload.flight;
 
   setInterval(async () => {
     
     console.log(payload.flight)
-
 
     // AWAIT BUSINESS
     const url = (`https://airlabs.co/api/v9/flight?flight_iata=${payload.flight}&api_key=${process.env.API_KEY}`);
@@ -60,11 +51,14 @@ socket.on('FLIGHTNUMBER',(payload)=>{
         baggageClaim:flightDataObject.arr_baggage,
         flightStatus:flightDataObject.status,
       }
-
+    
+  
     // utilize flightStatus to trigger notifications through socketServer
+  
+    socket.emit('DEPARTURE', flight);
+    
+  }, 30000);
 
-    socket.emit('DEPARTURE', flight);    
-  }, 20000);
 })
 
 

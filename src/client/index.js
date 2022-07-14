@@ -1,10 +1,8 @@
 'use strict';
 var prompt = require('prompt-sync')();
 let flightNumber = prompt('What is your flightNumber?: ');
-// possibly make this into a folder like the vendor client caps 
 
 // to listen to DEPARTURE, IN-FLIGHT and LANDED
-// think creating rooms based on phone numbers
 
 const { io } = require('socket.io-client');
 
@@ -17,11 +15,7 @@ const socket = io('http://localhost:3002/flightDeck');
 let room = 'USER1';
 socket.emit('JOIN', room);
 
-
-
 socket.emit('FLIGHTNUMBER', ({flight: flightNumber}));
-
-
 
 socket.on('DEPARTURE', (payload) =>{
 if(payload.flightStatus === 'scheduled'){
@@ -31,7 +25,7 @@ if(payload.flightStatus === 'scheduled'){
 });
 
 socket.on('EN-ROUTE', (payload) =>{
-  if(payload.flightStatus === 'en-route' && payload.speed > 100){
+  if(payload.flightStatus === 'en-route' && payload.speed > 0){
     console.log(`Flight Number ${payload.airline}${payload.flightNumber} is currently ${payload.flightStatus}`)
   }
   socket.emit('LANDED',payload);
@@ -40,18 +34,9 @@ socket.on('EN-ROUTE', (payload) =>{
 
 socket.on('LANDED', (payload) =>{
   
-  if( payload.flightStatus === 'landed' || payload.speed < 100 && payload.flightStatus !== 'scheduled' && payload.flightStatus === 'en-route'){
+  if( payload.flightStatus === 'landed' || payload.speed === 0 && payload.flightStatus !== 'scheduled'){
     console.log(`Flight Number ${payload.airline}${payload.flightNumber} has landed.`);
   }
 })
-
-
-// socket.on('EN-ROUTE', (payload));
-
-
-// socket.on('Landed',(payload));
-
-// socket.subscribe('DEPARTURE', payload);
-
 
 
