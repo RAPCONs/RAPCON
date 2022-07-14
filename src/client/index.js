@@ -31,7 +31,7 @@ if(payload.flightStatus === 'scheduled'){
 });
 
 socket.on('EN-ROUTE', (payload) =>{
-  if(payload.flightStatus === 'en-route'){
+  if(payload.flightStatus === 'en-route' && payload.speed > 100){
     console.log(`Flight Number ${payload.airline}${payload.flightNumber} is currently ${payload.flightStatus}`)
   }
   socket.emit('LANDED',payload);
@@ -40,8 +40,8 @@ socket.on('EN-ROUTE', (payload) =>{
 
 socket.on('LANDED', (payload) =>{
   
-  if( payload.flightStatus === 'landed' || payload.speed < 100  ){
-    console.log(`Flight Number ${payload.airline}${payload.flightNumber} has finally Landed.`);
+  if( payload.flightStatus === 'landed' || payload.speed < 100 && payload.flightStatus !== 'scheduled' && payload.flightStatus === 'en-route'){
+    console.log(`Flight Number ${payload.airline}${payload.flightNumber} has landed.`);
   }
 })
 

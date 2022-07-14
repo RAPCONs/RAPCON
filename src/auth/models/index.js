@@ -4,6 +4,7 @@
 //  this is where we do the relational foreign key business DONT FORGET
 
 const { Sequelize, DataTypes } = require('sequelize');
+const modelInterface = require('./modelInterface')
 const flightSchema = require('./flight');
 const customerSchema = require('./customers');
 require('dotenv').config();
@@ -29,11 +30,11 @@ const CustomerModel = customerSchema(sequelize, DataTypes);
 const FlightModel = flightSchema(sequelize, DataTypes);
 
 // Create Associations
-CustomerModel.hasMany(FlightModel, {foreignKey:'id', sourceKey:'id'});
-FlightModel.belongsTo(CustomerModel, {foreignKey: 'id', targetKey: 'id'});
+CustomerModel.hasMany(FlightModel, {foreignKey:'customerID', sourceKey:'id'});
+FlightModel.belongsTo(CustomerModel, {foreignKey: 'customerID', targetKey: 'id'});
 
 module.exports = {
   sequelize,
-  CustomerModel,
-  FlightModel,
+  CustomerModel: new modelInterface(CustomerModel),
+  FlightModel: new modelInterface(FlightModel),
 };

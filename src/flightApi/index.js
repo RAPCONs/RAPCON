@@ -18,9 +18,6 @@ const socket = io('http://localhost:3002/flightDeck');
 // socket.emit('JOIN', flightHub);
 
 
-
-
-
 socket.on('FLIGHTNUMBER',(payload)=>{
   
   // console.log(payload);
@@ -42,7 +39,7 @@ socket.on('FLIGHTNUMBER',(payload)=>{
     console.log(flightDataObject);
     // PAYLOAD
     let flight = {
-        airline: flightDataObject.airline_iata ,
+        airline: flightDataObject.airline_iata,
         flightNumber: flightDataObject.flight_number,
         speed: flightDataObject.speed,
         departureAirport: flightDataObject.dep_iata,
@@ -53,7 +50,6 @@ socket.on('FLIGHTNUMBER',(payload)=>{
         arrivalGate:flightDataObject.arr_gate,
         baggageClaim:flightDataObject.arr_baggage,
         flightStatus:flightDataObject.status,
-        // import uuid at somepoint to get into database: I removed it 
       }
     
   
@@ -61,7 +57,42 @@ socket.on('FLIGHTNUMBER',(payload)=>{
   
     socket.emit('DEPARTURE', flight);
     
-  }, 10000);  
+  }, 20000);
+  
+  // setInterval(async () => {
+    
+  //   console.log(payload.flight)
+
+  //   // AWAIT BUSINESS
+  //   const url = (`https://airlabs.co/api/v9/flight?flight_iata=${payload.flight}&api_key=${process.env.API_KEY}`);
+  //   let flightInfo = await axios.get(url);
+  //   const flightData = flightInfo.data;
+  //   let flightDataObject = flightData.response;
+
+    
+  //   console.log(flightDataObject);
+  //   // PAYLOAD
+  //   let flight = {
+  //       airline: flightDataObject.airline_iata,
+  //       flightNumber: flightDataObject.flight_number,
+  //       speed: 5000,
+  //       departureAirport: flightDataObject.dep_iata,
+  //       departureTime: flightDataObject.dep_time,
+  //       departureGate:flightDataObject.dep_gate,
+  //       arrivalAirport:flightDataObject.arr_iata,
+  //       arrivalTime:flightDataObject.arr_time,
+  //       arrivalGate:flightDataObject.arr_gate,
+  //       baggageClaim:flightDataObject.arr_baggage,
+  //       flightStatus:'en-route',
+  //     }
+    
+  
+  //   // utilize flightStatus to trigger notifications through socketServer
+  
+  //   socket.emit('EN-ROUTE', flight);
+    
+  // }, 5000); 
+
 })
 
 
