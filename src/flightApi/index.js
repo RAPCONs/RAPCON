@@ -2,13 +2,21 @@
 require('dotenv').config();
 const axios = require('axios');
 
+//const { model } = require('dynamoose');
+
+
+const { io } = require('socket.io-client');
+//const flight = require('../auth/models/flight');
+
+
 
 
 const { io } = require('socket.io-client');
 
 
 
-// make sure this is also dynamic 
+
+// make sure this is also dynamic
 const socket = io('http://localhost:3002/flightDeck');
 
 
@@ -22,15 +30,21 @@ const socket = io('http://localhost:3002/flightDeck');
 
 
 socket.on('FLIGHTNUMBER',(payload)=>{
-  
+
   // console.log(payload);
   logEvent('FLIGHTNUMBER',payload.flight);
-  
+
   // let flightNumber = payload.flight;
+
+
+  setTimeout(async () => {
+
+
 
   setInterval(async () => {
     
     console.log(payload.flight)
+
 
     // AWAIT BUSINESS
     const url = (`https://airlabs.co/api/v9/flight?flight_iata=${payload.flight}&api_key=${process.env.API_KEY}`);
@@ -42,7 +56,7 @@ socket.on('FLIGHTNUMBER',(payload)=>{
     console.log(flightDataObject);
     // PAYLOAD
     let flight = {
-        airline: flightDataObject.airline_iata ,
+        airline: flightDataObject.airline_iata,
         flightNumber: flightDataObject.flight_number,
         speed: flightDataObject.speed,
         departureAirport: flightDataObject.dep_iata,
@@ -53,15 +67,14 @@ socket.on('FLIGHTNUMBER',(payload)=>{
         arrivalGate:flightDataObject.arr_gate,
         baggageClaim:flightDataObject.arr_baggage,
         flightStatus:flightDataObject.status,
-        // import uuid at somepoint to get into database: I removed it 
+        // import uuid at somepoint to get into database: I removed it
       }
-    
-  
+
     // utilize flightStatus to trigger notifications through socketServer
-  
+
     socket.emit('DEPARTURE', flight);
-    
-  }, 10000);  
+
+  }, 1000);
 })
 
 
