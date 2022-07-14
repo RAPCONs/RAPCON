@@ -7,7 +7,6 @@ const axios = require('axios');
 const { io } = require('socket.io-client');
 
 
-// make sure this is also dynamic
 const socket = io('http://localhost:3002/flightDeck');
 
 
@@ -35,7 +34,6 @@ socket.on('FLIGHTNUMBER', (payload) => {
       let flightInfo = await axios.get(url);
       const flightData = flightInfo.data;
       let flightDataObject = flightData.response;
-
 
       console.log(flightDataObject);
       // PAYLOAD

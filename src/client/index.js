@@ -9,10 +9,8 @@ const twilio = require('twilio');
 var prompt = require('prompt-sync')();
 let flightNumber = prompt('What is your flightNumber?: ');
 let phoneNumber = prompt('What is your phone number?');
-// possibly make this into a folder like the vendor client caps
 
 // to listen to DEPARTURE, IN-FLIGHT and LANDED
-// think creating rooms based on phone numbers
 
 const { io } = require('socket.io-client');
 
@@ -24,7 +22,6 @@ const socket = io('http://localhost:3002/flightDeck');
 
 let room = 'USER1';
 socket.emit('JOIN', room);
-
 
 
 socket.emit('FLIGHTNUMBER', ({ flightNumber: flightNumber, phoneNumber: phoneNumber }));
@@ -65,7 +62,6 @@ socket.on('EN-ROUTE', (payload) => {
   socket.emit('LANDED', payload);
 })
 
-
 socket.on('LANDED', (payload) => {
 
   if (payload.flightStatus === 'landed' || payload.speed < 100 && payload.flightStatus !== 'scheduled' && payload.flightStatus === 'en-route') {
@@ -82,14 +78,5 @@ socket.on('LANDED', (payload) => {
       .then(message => console.log(message.sid));
   }
 })
-
-
-// socket.on('EN-ROUTE', (payload));
-
-
-// socket.on('Landed',(payload));
-
-// socket.subscribe('DEPARTURE', payload);
-
 
 
