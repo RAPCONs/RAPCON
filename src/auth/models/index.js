@@ -35,6 +35,6 @@ FlightModel.belongsTo(CustomerModel, {foreignKey: 'customerID', targetKey: 'id'}
 
 module.exports = {
   sequelize,
-  CustomerModel: new modelInterface(CustomerModel),
+  CustomerModel,
   FlightModel: new modelInterface(FlightModel),
 };
