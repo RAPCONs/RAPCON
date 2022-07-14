@@ -47,3 +47,6 @@ The MVP of this project is:
 
 **Socket.io testing code docs**
 https://socket.io/docs/v4/testing/
+
+**Air Labs API**
+https://airlabs.co/docs/
