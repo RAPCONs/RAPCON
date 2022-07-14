@@ -1,11 +1,20 @@
 'use strict';
 require('dotenv').config();
 const axios = require('axios');
+
 //const { model } = require('dynamoose');
 
 
 const { io } = require('socket.io-client');
 //const flight = require('../auth/models/flight');
+
+
+
+
+const { io } = require('socket.io-client');
+
+
+
 
 // make sure this is also dynamic
 const socket = io('http://localhost:3002/flightDeck');
@@ -19,7 +28,6 @@ const socket = io('http://localhost:3002/flightDeck');
 
 
 
-let emptyObject = {};
 
 socket.on('FLIGHTNUMBER',(payload)=>{
 
@@ -28,8 +36,14 @@ socket.on('FLIGHTNUMBER',(payload)=>{
 
   // let flightNumber = payload.flight;
 
+
   setTimeout(async () => {
 
+
+
+  setInterval(async () => {
+    
+    console.log(payload.flight)
 
 
     // AWAIT BUSINESS
@@ -38,6 +52,7 @@ socket.on('FLIGHTNUMBER',(payload)=>{
     const flightData = flightInfo.data;
     let flightDataObject = flightData.response;
 
+    
     console.log(flightDataObject);
     // PAYLOAD
     let flight = {
@@ -54,8 +69,6 @@ socket.on('FLIGHTNUMBER',(payload)=>{
         flightStatus:flightDataObject.status,
         // import uuid at somepoint to get into database: I removed it
       }
-
-
 
     // utilize flightStatus to trigger notifications through socketServer
 
