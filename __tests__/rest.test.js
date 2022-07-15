@@ -31,8 +31,4 @@ describe('Signin/Signup', () => {
     expect(response.status).toBe(200);
     expect(response.body.user.token).toBeTruthy();
   });
-
-  test('Get all users', async () => {
-    console.log(req.headers);
-  });
 })
