@@ -2,7 +2,6 @@
 
 const SECRET = process.env.SECRET || 'rapcon';
 
-
 const bearer = require('../src/auth/middleware/bearer');
 const { sequelize } = require('../src/auth/models');
 const { CustomerModel } = require('../src/auth/models');
@@ -37,7 +36,6 @@ describe('Bearer Middleware', () => {
       req.headers = {
         authorization: 'Bearer thistokenisnotcorrect',
       };
-      console.log(req.header);
       return bearer(req, res, next)
         .then(() => {
           expect(next).not.toHaveBeenCalled();
