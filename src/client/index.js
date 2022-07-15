@@ -14,11 +14,7 @@ let phoneNumber = prompt('What is your phone number?');
 
 const { io } = require('socket.io-client');
 
-// make sure the port is dynamic and referring to env file
 const socket = io('http://localhost:3002/flightDeck');
-
-
-// not properly connecting to rooms revist this please
 
 let room = 'USER1';
 socket.emit('JOIN', room);
@@ -46,7 +42,7 @@ socket.on('DEPARTURE', (payload) => {
 });
 
 socket.on('EN-ROUTE', (payload) => {
-  if (payload.flightStatus === 'en-route' && payload.speed > 100) {
+  if (payload.flightStatus === 'en-route' && payload.speed > 0) {
     console.log(`Flight Number ${payload.airline}${payload.flightNumber} is currently ${payload.flightStatus}`)
     console.log(payload.phoneNumber);
 
@@ -64,7 +60,7 @@ socket.on('EN-ROUTE', (payload) => {
 
 socket.on('LANDED', (payload) => {
 
-  if (payload.flightStatus === 'landed' || payload.speed < 100 && payload.flightStatus !== 'scheduled' && payload.flightStatus === 'en-route') {
+  if (payload.flightStatus === 'landed' || payload.speed === 0 && payload.flightStatus !== 'scheduled' && payload.flightStatus === 'en-route') {
     console.log(`Flight Number ${payload.airline}${payload.flightNumber} has landed.`);
     console.log(payload.phoneNumber);
 
