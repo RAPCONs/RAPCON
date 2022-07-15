@@ -8,29 +8,19 @@ const { Server }  = require('socket.io');
 const io = new Server(PORT);
 const flightDeck = io.of('/flightDeck');
 const { FlightModel } = require('../auth/models/index')
-// const authRouter = require('../auth/router/index')
-
 
 io.on('connection', (socket)=>{
   console.log('client:', socket.id);
   
 });
 
-// FLIGHT DECK IS THE NAMESPACE maybe as phone number???
 flightDeck.on('connection', (socket) => {
-    // maybe add , before +
   console.log('You are now connected to the Flight Deck: ', socket.id);
 
-  // this functionality might not be working right now 
   socket.on('JOIN', (room) => {
     console.log(`You have joined room: ${room}`);
     socket.join(room);
   });
-
-  //departureStatus
-  //in-flight
-  //ConfirmLanded
-
 
   // THIS IS GRABBING ANYTHING THAT EMITS TO THE EVENT FLIGHTNUMBER. WHICH IS INSIDE CLIENT.
   socket.on('FLIGHTNUMBER', (payload) => {
@@ -45,24 +35,23 @@ flightDeck.on('connection', (socket) => {
     logEvent('DEPARTURE', payload);
     
     // this is what we want to do to add the payload to the database.
-  //**NEED TO ADD OTHER DATA COLUMNS HERE
       let flights = {
           airline: payload.airline,
           flightNumber: payload.flightNumber,
           departureAirport: payload.departureAirport, 
           departureTime: payload.departureTime,
+          departureGate: payload.departureGate,
+          aircraftSpeed: payload.speed,
           arrivalAirport: payload.arrivalAirport,
           arrivalTime: payload.arrivalTime,
+          arrivalGate: payload.arrivalGate,
+          baggageClaim: payload.baggageClaim,
           flightStatus: payload.flightStatus,
           customerID: 1,
       }
-      let allFlights = await FlightModel.readAll()
-      // console.log(allFlights.response.flights.dataValues.id)
       let response = await FlightModel.create(flights);
       console.log('response:', response);
-      // console.log('response1:', response1);
 
-    // SPECIFIC ROOM NOT BROADCASTING TO EVERYTHING => socket.broadcast.emit to room.broadcast.emit
     flightDeck.emit('DEPARTURE', payload);
   });
 
