@@ -54,6 +54,7 @@ The MVP of this project is:
 
 #### Running the app
 - Database
+    - *Manually insert a customer record into the customer table in the database. To create a customer record, complete a POST request (ie using Thunderclient) at `/signup` and include the following json body: `username`, `password`, `role` (user or admin), `phone`.* A customer record is required in order to save a flight record to the database. Note: additional routes include `/signin` using basicAuth and `/users` using bearerAuth.
   
 - `node index.js`
     - This is the first step that needs to happen in order to connect to the database and setup the flight and customer records tables.
