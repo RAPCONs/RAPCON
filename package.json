@@ -1,0 +1,43 @@
+{
+  "name": "rapcon",
+  "version": "1.0.0",
+  "description": "**Radar Approach Control Facility (RAPCON)**",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose --coverage",
+    "init:config": "sequelize init:config",
+    "db:create": "sequelize db:create"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RAPCONs/RAPCON.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RAPCONs/RAPCON/issues"
+  },
+  "homepage": "https://github.com/RAPCONs/RAPCON#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "base-64": "^1.0.0",
+    "bcrypt": "^5.0.1",
+    "chance": "^1.1.8",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.19.0",
+    "express": "^4.18.1",
+    "jest": "^28.1.2",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.7.3",
+    "prompt-sync": "^4.2.0",
+    "request": "^2.88.2",
+    "sequelize": "^6.21.3",
+    "sequelize-cli": "^6.4.1",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1",
+    "supertest": "^6.2.4",
+    "twilio": "^3.79.0",
+    "uuid": "^8.3.2"
+  }
+}
